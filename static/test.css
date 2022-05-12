@@ -1,0 +1,28 @@
+.toggle {
+    display: flex;
+}
+
+.sun,
+.moon {
+    font-size: 10rem;
+    width: fit-content;
+    height: fit-content;
+}
+
+.moon-logo {
+    opacity: 1;
+    transition: all 0.2s ;
+}
+
+.sun-logo {
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+.animate-sun {
+    opacity: 1;
+}
+
+.animate-moon {
+    opacity: 0;
+}

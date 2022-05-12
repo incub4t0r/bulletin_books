@@ -1,0 +1,48 @@
+:root{
+    --light-primary-bg: #ffffff;
+    --light-text: #222;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+body {
+    color: var(--light-text);
+    background: var(--light-primary-bg);
+    transition: background-color 1s;
+}
+
+body a {
+    color: #0033cc;
+}
+
+.toggle {
+    display: flex;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    /* font-size: 3vw; */
+}
+
+.header .logo {
+    width: fit-content;
+    height: fit-content;
+    font-size: 2rem;
+    padding-left: 1rem;
+}
+
+@media screen and (max-width: 800px) {
+    .header .logo {
+        font-size: 8vw;
+    }
+}
+
+/* .container{
+    margin: 0px;
+    margin: 50px;
+} */
