@@ -6,7 +6,7 @@ def random():
     pass
 
 @app.route("/")
-def landing():
+def home():
     return render_template("home.html")
 
 
