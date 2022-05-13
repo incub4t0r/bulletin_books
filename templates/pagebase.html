@@ -6,59 +6,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" href="../static/carddark.css">
     <link rel="stylesheet" href="../static/dark.css">
-    <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <!-- <script type='text/javascript' -->
-    <!-- src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script> -->
 
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-	    <h1>Book Battalion 📚</h1>
-            <div class="toggle">
-                <i class="lni logo lni-night"></i>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+        <div class="container">
+            <!-- <a class="navbar-brand">💪</a> -->
+            <div class="navbar-header navbar-text">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse navbar-text-color" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a class="first" href={{url_for('index')}}>Home </a></li>
+                    <li><a href={{url_for('listbook')}}>List </a></li>
+                    <li><a href={{url_for('newbook')}}>Post</a></li>
+                </ul>
             </div>
         </div>
-        <h1>Looking for a textbook?</h1>
-	<p>Scroll through the listed books to find that textbook you need. Or, use the search bar.</p>
-	<h1>Want to list a new book?</h1>
-	<p>Head on over to the "list a book" section and fill out the info.</p>
-    </div>
-    <div class="container">
-        <h1>Listed textbooks</h1>
-	<div class="row">
-            {% for n in range(8) %}
-            <div class="card">
-                <h3 class="title">
-                    Book {{n+1}}
-                </h3>
-                <div class="content">
-                    {% for i in range(5) %}
-                    <p>
-		    this is book #{{i}}
-		    </p>
-		    {%endfor%}
-                </div>
-            </div>
-            {%endfor%}
-        </div>
-    </div>
-    <div class="container">
-	<h1>Just added</h1>
-        <div class="row">
-            {% for n in range(8) %}
-            <div class="card">
-                <h3 class="title">
-                    Card {{n+1}}
-                </h3>
-            </div>
-            {%endfor%}
-        </div>
-    </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <br>
+    <br>
+    <br>
 </body>
 <!-- https://dev.to/murtuzaalisurti/dark-mode-toggle-animation-using-css-27il -->
 

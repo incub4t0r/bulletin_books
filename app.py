@@ -10,12 +10,12 @@ def landing():
     return render_template("index.html")
 
 
-@app.route("/textbooks/listed")
-def listed():
-    return render_template("listed.html")
+@app.route("/textbooks/listbook")
+def listbook():
+    return render_template("listbook.html")
 
 
-@app.route("/textbooks/new")
+@app.route("/textbooks/newbook")
 def newbook():
     return render_template("newbook.html")
 
