@@ -9,6 +9,7 @@ slidecards is a work-in progress web app that will allow students to trade textb
 ## Phases & Implied Tasks for MVP
 
 1. Get webpage up
+
   - [] endpoints for landing page, view listed textbooks, add new textbook
 2. Develop new book entires
   - [] Create new firebase table for book entires
