@@ -7,7 +7,7 @@ def random():
 
 @app.route("/")
 def landing():
-    return render_template("index.html")
+    return render_template("home.html")
 
 
 @app.route("/textbooks/listbook")
