@@ -3,11 +3,25 @@
 {% block title %} Listings {% endblock %}
 
 {% block content %}
+
+<link rel="stylesheet" href="../static/cards.css">
+
 <div class="container">
     <h1>
         All posted books
     </h1>
     <br>
+    <div class="row">
+        {%for i in range(0, 10)%}
+        <div class="column">
+            <div class="card">
+                <h2>
+                    Book #{{i}}
+                </h2>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
 </div>
 
 {% endblock %}

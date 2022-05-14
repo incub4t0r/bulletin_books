@@ -1,0 +1,38 @@
+{% extends 'pagebase.html' %}
+
+{% block title %} Listings {% endblock %}
+
+{% block content %}
+
+
+<style>
+    form input{
+        color: black;
+    }
+</style>
+<div class="container">
+    <h1>
+        Delete a book
+    </h1>
+    <br>
+    <p>Made a mistake? Traded the book? Don't want to sell?</p>
+    <p>Enter the 5 character deletion code emailed to you and submit.</p>
+    <br>
+    <form action="/textbooks/delete" method="POST">
+        <div class="form-group">
+            <!-- <label for="deletionCode"></label><br> -->
+            <input id="deletionCode" name="deletionCode" type="text" required="true" placeholder="5 character code" minlength="5" maxlength="5"><br>
+        </div>
+        <button type="submit" class="btn btn-default">Delete by code</button>
+    </form>
+
+    {%if error is defined%}
+    <p>Deletion code not found. Check and try again.</p>
+    {%endif%}
+
+    {%if success is defined%}
+    <p>Successfully deleleted {{success}}</p>
+    {%endif%}
+</div>
+
+{% endblock %}

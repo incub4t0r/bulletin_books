@@ -1,0 +1,25 @@
+{% extends 'pagebase.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>ISBN search results</h1>
+
+    {%if error is defined %}
+    <p>{{error}}</p>
+    {%endif%}
+
+    {%if results is defined%}
+    <h2>This is what we found...</h2>
+    <p>Title: {{results.title}}</p>
+    <p>Author(s): {{authors}}</p>
+    <p>Publisher: {{publisher}}</p>
+    {%endif%}
+</div>
+
+{% endblock %}
+
+
+
+
