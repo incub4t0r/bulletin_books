@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 import json
 from datetime import datetime
@@ -26,8 +26,10 @@ def newbook():
     # database insertion should happen here.
     deleteCode = random()
     print(deleteCode)
+    args = request.form
     # email = request.form["userEmail"]
-    return render_template("listbook.html")
+    return redirect(url_for('listbook'), code="302")
+    # return render_template("listbook.html")
 
 
 # @app.route("/textbooks/submit", methods=["POST"])

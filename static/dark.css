@@ -42,7 +42,43 @@ body a {
     }
 }
 
-.container{
-    /* margin: 0px; */
-    /* margin: 50px; */
+
+/* Style for navbar */
+.nav {
+    font-size:20px;
+    /* color: var(--white); */
+}
+
+.nav .first {
+    padding-left: 0px;
+}
+
+@media screen and (max-width: 800px) {
+    *{
+        transition: ease 1s;
+    }
+    .navbar-header{
+        margin: 4px;
+    }
+    .nav .first {
+        padding-left: 15px;
+    }
+    navbar-brand{
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    *{
+        transition: ease-in 1s;
+    }
+    navbar-brand{
+        font-size: 40px;
+    }
+    .navbar-text-color .nav li a{
+        color: var(--white);
+    }
+    .nav .first {
+        padding-left: 15px;
+    }
 }
