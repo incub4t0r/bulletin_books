@@ -10,25 +10,38 @@
     </h1>
     <div class="container">
         <style>
-            .row *{
+            .row * {
                 padding: 10px;
             }
         </style>
         <div class="row">
-            {%for i in range(0, 16)%}
-            <div class="col-md-3">
-                <div class="card">
-                    <!-- <img src="https://images-na.ssl-images-amazon.com/images/I/51vWqzfF0LS.jpg" alt=""="" height="180" class="card-img-top"> -->
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            Book #{{i}}
-                        </h3>
+            {%if books is defined%}
+                {%for book in books%}
+                <div class="col-md-3">
+                    <div class="card">
+                        <!-- <img src="https://images-na.ssl-images-amazon.com/images/I/51vWqzfF0LS.jpg" alt=""="" height="180" class="card-img-top"> -->
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                {{book.title}}
+                            </h3>
+                            <ul class="list-group">
+                                <li class="list-group-item">{{book.email}}</li>
+                                <li class="list-group-item">{{book.condition}}</li>
+                                {%if book.price is defined%}
+                                <li class="list-group-item">{{ "%.2f"|format(book.price) }}</li>
+                                {%endif%}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {%endfor%}
+                {%endfor%}
+            {%endif%}
         </div>
     </div>
+    {%if error is defined%}
+    <p class="error">Error finding book by ISBN, either ISBN is wrong or book is not indexed.</p>
+    {%endif%}
+
 </div>
 
 

@@ -70,19 +70,29 @@
                 }
             </style>
             <form action="/textbooks/newbook" method="POST">
-                <select class="form-select input-first" aria-label="Default select example" name="bookCond">
-                    <option selected>Select condition of book</option>
+                <input class="form-control" name="bookTitle" type="hidden" value='{{results.title}}' readonly>
+                <input class="form-control" name="bookAuthor" type="hidden" value='{{authors}}'  readonly>
+                <input class="form-control" name="bookPublisher" type="hidden" value='{{publisher}} ' readonly>
+                <select class="form-select input-first" name="bookCond" required="true">
                     <option value="Excellent">Excellent</option>
-                    <option value="Fair">Fair</option>
+                    <option selected value="Fair">Fair</option>
                     <option value="Poor">Poor</option>
                 </select>
                 <div class="input-group">
                     <span class="input-group-text input-second">$</span>
                     <input class="form-control input-second" name="bookPrice" type="number"
-                        placeholder="Price of book (optional)">
+                        placeholder="Price of book (optional)" value="0">
                 </div>
                 <input class="form-control input-third" name="userEmail" type="email" required="true"
                     placeholder="Email">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required="true">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        By clicking this checkbox, I confirm that I allow my email to be posted along with the book so other users may contact me.
+                        Additionally, I confirm that my email may be used for a one-time deletion code to be sent to for the book.
+                    </label>
+                </div>
+                <br>
                 <button class="btn btn-outline-secondary" type="submit">Post a new book</button>
             </form>
         </div>
