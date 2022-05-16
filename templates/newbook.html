@@ -4,11 +4,6 @@
 
 {% block content %}
 
-<!-- <style>
-    form input{
-        color: black;
-    }
-</style> -->
 <div class="container-sm">
     <h1>
         Post a new book
@@ -19,7 +14,6 @@
             <h2 class="card-title">
                 ISBN search
             </h2>
-            <!-- <h2>ISBN search</h2> -->
             <form action="/textbooks/isbnsearch" method="POST">
                 <div class="input-group mb-3">
                     <input class="form-control" id="bookISBN" name="bookISBN" type="text" required="true"
@@ -27,12 +21,12 @@
                     <button class="btn btn-outline-secondary" type="submit">Search by ISBN</button>
                 </div>
             </form>
+            {%if error is defined%}
+            <p class="error">Error finding book by ISBN, either ISBN is wrong or book is not indexed.</p>
+            {%endif%}
         </div>
     </div>
 
-    {%if error is defined%}
-    <p>Error finding book by ISBN, either ISBN is wrong or book is not indexed.</p>
-    {%endif%}
 
     {%if results is defined%}
     <br>
@@ -46,7 +40,7 @@
                 <li class="list-group-item">Title: {{results.title}}</li>
                 <li class="list-group-item">Author(s): {{authors}}</li>
                 <li class="list-group-item">Publisher: {{publisher}}</li>
-            </ul>            
+            </ul>
         </div>
     </div>
     <br>
@@ -58,16 +52,18 @@
             </h2>
             <br>
             <style>
-                .input-first{
+                .input-first {
                     margin-bottom: -1px;
                     border-bottom-right-radius: 0;
                     border-bottom-left-radius: 0;
                 }
-                .input-second{
+
+                .input-second {
                     margin-bottom: -1px;
                     border-radius: 0;
                 }
-                .input-third{
+
+                .input-third {
                     margin-bottom: 10px;
                     border-top-right-radius: 0;
                     border-top-left-radius: 0;
@@ -82,25 +78,15 @@
                 </select>
                 <div class="input-group">
                     <span class="input-group-text input-second">$</span>
-                    <input class="form-control input-second" name="bookPrice" type="number" placeholder="Price of book (optional)">
+                    <input class="form-control input-second" name="bookPrice" type="number"
+                        placeholder="Price of book (optional)">
                 </div>
-                <input class="form-control input-third" name="userEmail" type="email" required="true" placeholder="Email">
+                <input class="form-control input-third" name="userEmail" type="email" required="true"
+                    placeholder="Email">
                 <button class="btn btn-outline-secondary" type="submit">Post a new book</button>
             </form>
         </div>
     </div>
-    <!-- <form action="/textbooks/newbook" method="POST">
-        <div class="form-group">
-            <select class="selectpicker" name="condition" style="-webkit-appearance: none; color: black;">
-                <option value="Excellent">Excellent</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Poor</option>
-            </select><br>
-            <input name="bookPrice" type="number" placeholder="a hotdog"><br>
-            <input name="userEmail" type="email" required="true" placeholder="Email"><br>
-        </div>
-        <button type="submit" class="btn btn-default">Post new textbook</button>
-    </form> -->
 
     {%endif%}
 </div>
