@@ -1,14 +1,69 @@
 from flask import Flask, render_template, request, redirect, url_for
 import requests
 import json
-from datetime import datetime
 import secrets
+from datetime import datetime
+import string
+
+
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+
+# db configurations
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+    condition = db.Column(db.String(50))
+    price = db.Column(db.Numeric(10))
+    deleteCode = db.Column(db.String(10))
+
+
+db.create_all()
+
+
+def createNewBook(bookTitle, userEmail, bookCond, bookPrice, bookDeleteCode):
+    try:
+        newBook = Book(title=bookTitle, email=userEmail, condition=bookCond, price=bookPrice, deleteCode=bookDeleteCode)
+        db.session.add(newBook)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def deleteBook(deleteCode):
+    try:
+        bookToDelete = db.session.query(Book).filter(Book.deleteCode == deleteCode).first()
+        db.session.delete(bookToDelete)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def listBooks():
+    try:
+        allBooks = db.session.query(Book).all()
+        return allBooks
+    except:
+        return None
+def searchBook():
+    return
+
+
+# Flask paths
 def random():
-    rand = secrets.token_urlsafe(6)
+    alphabet = string.ascii_letters + string.digits
+    rand = ''.join(secrets.choice(alphabet) for i in range(6))
+    # rand = secrets.token_urlsafe(5)
     return rand
+
 
 @app.route("/", methods=["GET"])
 def home():
@@ -17,24 +72,33 @@ def home():
 
 @app.route("/textbooks/listbook", methods=["GET", "POST"])
 def listbook():
-    return render_template("listbook.html")
+    books = listBooks()
+    if books != None:
+        return render_template("listbook.html", books=books)
+    else:
+        return render_template("listbook.html", error="oh no!")
 
 
 @app.route("/textbooks/newbook", methods=["POST"])
 def newbook():
-    # each database insertion should have a hash associated with book title
-    # database insertion should happen here.
-    deleteCode = random()
-    print(deleteCode)
-    args = request.form
-    # email = request.form["userEmail"]
-    return redirect(url_for('listbook'), code="302")
-    # return render_template("listbook.html")
+    if request.method == "POST":
+        # print(request.form)
+        deleteCode = random()
+        # print(deleteCode)
+        userEmail = request.form["userEmail"]
+        bookTitle = request.form["bookTitle"]
+        bookCond = request.form["bookCond"]
+        bookPrice = request.form["bookPrice"]
+        # print(userEmail, bookTitle, bookCond, bookPrice, sep=", ")
+        createNewBook(bookTitle, userEmail, bookCond, bookPrice, deleteCode)
+        return redirect(url_for('listbook'), code="302")
+    else:
+        return redirect(url_for('listbook'), code="302")
 
 
 # @app.route("/textbooks/submit", methods=["POST"])
 # def submit():
-#     try: 
+#     try:
 #         form = request.form
 #         print(form)
 #         # print(request.form["bookTitle"])
@@ -57,7 +121,8 @@ def isbnsearch():
             authors = reqLoad["authors"]
             for authorKey in authors:
                 authorLink = authorKey["key"]
-                authRaw = requests.get(f"https://openlibrary.org{authorLink}.json")
+                authRaw = requests.get(
+                    f"https://openlibrary.org{authorLink}.json")
                 authLoad = json.loads(authRaw.text)
                 name = authLoad["name"]
                 authorList.append(name)
@@ -70,6 +135,7 @@ def isbnsearch():
             return render_template("newbook.html", error="Error, cannot find ISBN.")
     else:
         return render_template("error.html")
+
 
 @app.route("/about", methods=["GET"])
 def about():
@@ -86,12 +152,15 @@ def delete():
     elif request.method == "POST":
         try:
             deletionCode = request.form["deletionCode"]
-            return render_template("delete.html", success=f"Successfully deleted {deletionCode}")
-        # write logic to search table and delete
+            print(deletionCode)
+            query = deleteBook(deletionCode)
+            if query:
+                return render_template("delete.html", success=f"Successfully deleted {deletionCode}")
+            return render_template("delete.html", error="Something went wrong, maybe you had the wrong code?")
         except:
             return render_template("delete.html", error="Something went wrong")
     else:
         return render_template("error.html")
 
-app.run(host="0.0.0.0", debug=True)
 
+app.run(host="0.0.0.0", debug=True)

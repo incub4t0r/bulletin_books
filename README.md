@@ -15,10 +15,10 @@ slidecards is a work-in progress web app that will allow students to trade textb
   - [X] Take in user email for contact info
   - [X] Generate random 5 character string for book deletion
   - [ ] Send random to user email
-  - [ ] Add sqlite3 db for table
-  - [ ] Add function to access table
+  - [X] Add sqlite3 db for table
+  - [X] Add function to access table
 3. Develop listing book entries
-  - [ ] Add function to access table
+  - [X] Add function to access table
   - [ ] Access firebase table for book entires
   - [ ] Sort by newly listed, alphabetic order
 4. Add a new page for viewing each textbook individually for user email. 

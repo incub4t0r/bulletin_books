@@ -16,13 +16,13 @@
                 Made a mistake? Traded the book? Don't want to sell?
             </h2>
             <p>
-                Enter the 5 character deletion code emailed to you and submit.
+                Enter the 6 character deletion code emailed to you and submit.
             </p>
             <br>
             <form action="/textbooks/delete" method="POST">
                 <div class="input-group mb-3">
                     <input class="form-control" id="deletionCode" name="deletionCode" type="text" required="true"
-                        placeholder="5 character code" minlength="5" maxlength="5"><br>
+                        placeholder="6 character code" minlength="6" maxlength="6"><br>
                     <button class="btn btn-outline-secondary" type="submit">Delete by code</button>
                 </div>
             </form>
