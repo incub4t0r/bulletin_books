@@ -28,7 +28,7 @@
     </div>
 
 
-    {%if results is defined%}
+    {%if bookTitle is defined%}
     <br>
     <div class="card">
         <div class="card-body">
@@ -37,9 +37,8 @@
             </h2>
             <br>
             <ul class="list-group">
-                <li class="list-group-item">Title: {{results.title}}</li>
+                <li class="list-group-item">Title: {{bookTitle}}</li>
                 <li class="list-group-item">Author(s): {{authors}}</li>
-                <li class="list-group-item">Publisher: {{publisher}}</li>
             </ul>
         </div>
     </div>
@@ -70,10 +69,13 @@
                 }
             </style>
             <form action="/textbooks/newbook" method="POST">
-                <input class="form-control" name="bookTitle" type="hidden" value='{{results.title}}' readonly>
+                <input class="form-control" name="bookTitle" type="hidden" value='{{bookTitle}}' readonly>
                 <input class="form-control" name="bookAuthor" type="hidden" value='{{authors}}'  readonly>
-                <input class="form-control" name="bookPublisher" type="hidden" value='{{publisher}} ' readonly>
-                <select class="form-select input-first" name="bookCond" required="true">
+                <div class="input-group">
+                    <input class="form-control input-first" name="bookEdition" type="number" required="true"
+                    placeholder="Edition">
+                </div>
+                <select class="form-select input-second" name="bookCond" required="true">
                     <option value="Excellent">Excellent</option>
                     <option selected value="Fair">Fair</option>
                     <option value="Poor">Poor</option>
