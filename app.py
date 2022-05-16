@@ -7,6 +7,10 @@ import yagmail
 import os
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+import xmltodict
+
+# from flask_talisman import Talisman
+
 
 load_dotenv()
 
@@ -15,7 +19,7 @@ EMAIL_SENDER = os.getenv('EMAIL_SENDER')
 
 
 app = Flask(__name__)
-
+# Talisman(app)
 
 # db configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
@@ -27,6 +31,7 @@ class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     email = db.Column(db.String(100))
+    edition = db.Column(db.String(100))
     condition = db.Column(db.String(50))
     price = db.Column(db.Numeric(10))
     deleteCode = db.Column(db.String(10))
@@ -36,9 +41,9 @@ db.create_all()
 
 
 # Functions
-def createNewBook(bookTitle, userEmail, bookCond, bookPrice, bookDeleteCode):
+def createNewBook(bookTitle, userEmail, bookEdition, bookCond, bookPrice, bookDeleteCode):
     try:
-        newBook = Book(title=bookTitle, email=userEmail,
+        newBook = Book(title=bookTitle, email=userEmail, edition=bookEdition,
                        condition=bookCond, price=bookPrice, deleteCode=bookDeleteCode)
         db.session.add(newBook)
         db.session.commit()
@@ -86,7 +91,56 @@ def emailUserCode(userEmail, bookTitle, deleteCode):
         except:
             return False
 
+
+def worldcat(isbn):
+    reqRaw = requests.get(
+        f"http://classify.oclc.org/classify2/Classify?isbn={isbn}&summary=true")
+    reqLoad = json.loads(json.dumps(xmltodict.parse(reqRaw.text)))
+
+    # print(json.dumps(xmltodict.parse(reqRaw.text)))
+    try:
+        bookTitle = (reqLoad["classify"]["work"]["@title"])
+    except:
+        print("test")
+        bookTitle = (reqLoad["classify"]["works"]["work"][1]["@title"])
+        print(bookTitle)
+            # publisher = (reqLoad["classify"]["authors"]["author"][0]["#text"].strip("[Publisher]"))
+    try:
+        tempAuthor = reqLoad["classify"]["authors"]["author"]
+        if type(tempAuthor) is list:
+            author = (reqLoad["classify"]["authors"]["author"][1]["#text"])
+        elif type(tempAuthor) is dict:
+            author = (reqLoad["classify"]["authors"]["author"]["#text"])
+    except:
+        tempAuthor = reqLoad["classify"]["works"]["work"][1]["@author"]
+        author = tempAuthor
+    # author = (reqLoad["classify"]["authors"]["author"][1]["#text"].strip(""))
+    # edition = (reqLoad["classify"]["work"]["@editions"])
+    # return (bookTitle, author, edition)
+    return (bookTitle, author)
+
+
+# def openlibrary(isbn):
+#     isbn = request.form["bookISBN"].strip("-").rstrip()
+#     reqRaw = requests.get(f"https://openlibrary.org/isbn/{isbn}.json")
+#     reqLoad = json.loads(reqRaw.text)
+#     authorList = []
+#     authorStr = ""
+#     authors = reqLoad["authors"]
+#     for authorKey in authors:
+#         authorLink = authorKey["key"]
+#         authRaw = requests.get(
+#             f"https://openlibrary.org{authorLink}.json")
+#         authLoad = json.loads(authRaw.text)
+#         name = authLoad["name"]
+#         authorList.append(name)
+#     authorStr = (', '.join(authorList))
+#     publisher = reqLoad["publishers"][0]
+#     return render_template("newbook.html", results=reqLoad, authors=authorStr, publisher=publisher)
+
 # Flask paths
+
+
 def random():
     alphabet = string.ascii_letters + string.digits
     rand = ''.join(secrets.choice(alphabet) for i in range(6))
@@ -115,8 +169,9 @@ def newbook():
         bookTitle = request.form["bookTitle"]
         bookCond = request.form["bookCond"]
         bookPrice = request.form["bookPrice"]
+        bookEdition = request.form["bookEdition"]
         bookCreation = createNewBook(
-            bookTitle, userEmail, bookCond, bookPrice, deleteCode)
+            bookTitle, userEmail, bookEdition, bookCond, bookPrice, deleteCode)
         if bookCreation:
             codeEmail = emailUserCode(userEmail, bookTitle, deleteCode)
             if codeEmail:
@@ -130,7 +185,6 @@ def newbook():
     else:
         return redirect(url_for('listbook'), code="302")
 
-
 # @app.route("/textbooks/submit", methods=["POST"])
 # def submit():
 #     try:
@@ -141,6 +195,7 @@ def newbook():
 #     except:
 #         return ("error")
 
+
 @app.route("/textbooks/isbnsearch", methods=["POST", "GET"])
 def isbnsearch():
     if request.method == "GET":
@@ -148,24 +203,9 @@ def isbnsearch():
     elif request.method == "POST":
         try:
             isbn = request.form["bookISBN"].strip("-").rstrip()
-            reqRaw = requests.get(f"https://openlibrary.org/isbn/{isbn}.json")
-            reqLoad = json.loads(reqRaw.text)
-            # print(reqLoad)
-            authorList = []
-            authorStr = ""
-            authors = reqLoad["authors"]
-            for authorKey in authors:
-                authorLink = authorKey["key"]
-                authRaw = requests.get(
-                    f"https://openlibrary.org{authorLink}.json")
-                authLoad = json.loads(authRaw.text)
-                name = authLoad["name"]
-                authorList.append(name)
-            authorStr = (', '.join(authorList))
-            publisher = reqLoad["publishers"][0]
-            return render_template("newbook.html", results=reqLoad, authors=authorStr, publisher=publisher)
-
-            # return render_template("isbnsearch.html", results=reqLoad, authors=authorStr, publisher=publisher)
+            bookTitle, author = worldcat(isbn)
+            return render_template("newbook.html", bookTitle=bookTitle, authors=author)
+            # return render_template("newbook.html", bookTitle=bookTitle, authors=author, bookEdition=edition)
         except:
             return render_template("newbook.html", error="Error, cannot find ISBN.")
     else:

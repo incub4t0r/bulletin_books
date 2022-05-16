@@ -25,11 +25,12 @@
                                 {{book.title}}
                             </h3>
                             <ul class="list-group">
-                                <li class="list-group-item">{{book.email}}</li>
-                                <li class="list-group-item">{{book.condition}}</li>
+                                <li class="list-group-item">Edition: {{book.edition}}</li>
+                                <li class="list-group-item">Condition: {{book.condition}}</li>
                                 {%if book.price is defined%}
-                                <li class="list-group-item">{{ "%.2f"|format(book.price) }}</li>
+                                <li class="list-group-item">Price: {{ "%.2f"|format(book.price) }}</li>
                                 {%endif%}
+                                <li class="list-group-item">{{book.email}}</li>
                             </ul>
                         </div>
                     </div>
