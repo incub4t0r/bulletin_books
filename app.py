@@ -2,11 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests
 import json
 import secrets
-from datetime import datetime
 import string
-
-
+import yagmail
+import os
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+
+load_dotenv()
+
+APP_PASSWORD = os.getenv('APP_PASSWORD')
+EMAIL_SENDER = os.getenv('EMAIL_SENDER')
+
 
 app = Flask(__name__)
 
@@ -29,23 +35,28 @@ class Book(db.Model):
 db.create_all()
 
 
+# Functions
 def createNewBook(bookTitle, userEmail, bookCond, bookPrice, bookDeleteCode):
     try:
-        newBook = Book(title=bookTitle, email=userEmail, condition=bookCond, price=bookPrice, deleteCode=bookDeleteCode)
+        newBook = Book(title=bookTitle, email=userEmail,
+                       condition=bookCond, price=bookPrice, deleteCode=bookDeleteCode)
         db.session.add(newBook)
         db.session.commit()
         return True
     except:
         return False
 
+
 def deleteBook(deleteCode):
     try:
-        bookToDelete = db.session.query(Book).filter(Book.deleteCode == deleteCode).first()
+        bookToDelete = db.session.query(Book).filter(
+            Book.deleteCode == deleteCode).first()
         db.session.delete(bookToDelete)
         db.session.commit()
         return True
     except:
         return False
+
 
 def listBooks():
     try:
@@ -53,15 +64,32 @@ def listBooks():
         return allBooks
     except:
         return None
+
+
 def searchBook():
     return
 
+
+def emailUserCode(userEmail, bookTitle, deleteCode):
+    sender = EMAIL_SENDER
+    appPassword = APP_PASSWORD
+    to = userEmail
+
+    subject = f'Your deletion code for {bookTitle} on Bulletin Books'
+    mailContent = ["Hi there!", f"You recently posted {bookTitle} on Bulletin Books.",
+                   " ", f"The deletion code associated with the book is {deleteCode}."]
+
+    with yagmail.SMTP(sender, appPassword) as yag:
+        try:
+            yag.send(to, subject, mailContent)
+            return True
+        except:
+            return False
 
 # Flask paths
 def random():
     alphabet = string.ascii_letters + string.digits
     rand = ''.join(secrets.choice(alphabet) for i in range(6))
-    # rand = secrets.token_urlsafe(5)
     return rand
 
 
@@ -82,16 +110,23 @@ def listbook():
 @app.route("/textbooks/newbook", methods=["POST"])
 def newbook():
     if request.method == "POST":
-        # print(request.form)
         deleteCode = random()
-        # print(deleteCode)
         userEmail = request.form["userEmail"]
         bookTitle = request.form["bookTitle"]
         bookCond = request.form["bookCond"]
         bookPrice = request.form["bookPrice"]
-        # print(userEmail, bookTitle, bookCond, bookPrice, sep=", ")
-        createNewBook(bookTitle, userEmail, bookCond, bookPrice, deleteCode)
-        return redirect(url_for('listbook'), code="302")
+        bookCreation = createNewBook(
+            bookTitle, userEmail, bookCond, bookPrice, deleteCode)
+        if bookCreation:
+            codeEmail = emailUserCode(userEmail, bookTitle, deleteCode)
+            if codeEmail:
+                return redirect(url_for('listbook'), code="302")
+            else:
+                deleteBook(deleteCode)
+                return render_template(url_for('newbook'), error="Something went wrong")
+        else:
+            return render_template(url_for('newbook'), error="Something went wrong")
+
     else:
         return redirect(url_for('listbook'), code="302")
 
