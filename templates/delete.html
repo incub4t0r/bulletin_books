@@ -5,34 +5,62 @@
 {% block content %}
 
 
-<style>
-    form input{
-        color: black;
-    }
-</style>
-<div class="container">
+<div class="container-sm">
     <h1>
         Delete a book
     </h1>
     <br>
-    <p>Made a mistake? Traded the book? Don't want to sell?</p>
-    <p>Enter the 5 character deletion code emailed to you and submit.</p>
-    <br>
-    <form action="/textbooks/delete" method="POST">
-        <div class="form-group">
-            <!-- <label for="deletionCode"></label><br> -->
-            <input id="deletionCode" name="deletionCode" type="text" required="true" placeholder="5 character code" minlength="5" maxlength="5"><br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">
+                Made a mistake? Traded the book? Don't want to sell?
+            </h2>
+            <p>
+                Enter the 5 character deletion code emailed to you and submit.
+            </p>
+            <br>
+            <form action="/textbooks/delete" method="POST">
+                <div class="input-group mb-3">
+                    <input class="form-control" id="deletionCode" name="deletionCode" type="text" required="true"
+                        placeholder="5 character code" minlength="5" maxlength="5"><br>
+                    <button class="btn btn-outline-secondary" type="submit">Delete by code</button>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-default">Delete by code</button>
-    </form>
+    </div>
+    <br>
 
     {%if error is defined%}
     <p>Deletion code not found. Check and try again.</p>
     {%endif%}
 
     {%if success is defined%}
-    <p>Successfully deleleted {{success}}</p>
+    <p>{{success}}</p>
     {%endif%}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">
+                Missing your deletion code?
+            </h2>
+            <p>
+                Send the admin an email here.
+            </p>
+            <br>
+            <form action="/textbooks/delete" method="POST">
+                <div class="input-group">
+                    <input class="form-control" type="email" placeholder="Full Email">
+                </div>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Describe your issue.</span>
+                    <textarea class="form-control" name=""></textarea>
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary" type="submit">Submit email</button>
+                </div>
+        </form>
+    </div>
+</div>
 </div>
 
 {% endblock %}

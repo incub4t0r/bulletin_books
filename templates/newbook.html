@@ -4,35 +4,92 @@
 
 {% block content %}
 
-<style>
+<!-- <style>
     form input{
         color: black;
     }
-</style>
-<div class="container">
+</style> -->
+<div class="container-sm">
     <h1>
         Post a new book
     </h1>
     <br>
-    <form action="/textbooks/isbnsearch" method="POST">
-        <div class="form-group">
-            <h2>ISBN search</h2>
-            <label for="bookISBN">Book ISBN</label><br>
-            <input id="bookISBN" name="bookISBN" type="text" required="true"><br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">
+                ISBN search
+            </h2>
+            <!-- <h2>ISBN search</h2> -->
+            <form action="/textbooks/isbnsearch" method="POST">
+                <div class="input-group mb-3">
+                    <input class="form-control" id="bookISBN" name="bookISBN" type="text" required="true"
+                        placeholder="Book ISBN" aria-describedby="button-addon1"><br>
+                    <button class="btn btn-outline-secondary" type="submit">Search by ISBN</button>
+                </div>
+            </form>
         </div>
-        <button type="submit" class="btn btn-default">Search by ISBN</button>
-    </form>
+    </div>
+
     {%if error is defined%}
     <p>Error finding book by ISBN, either ISBN is wrong or book is not indexed.</p>
     {%endif%}
 
     {%if results is defined%}
-    <h2>This is what we found...</h2>
-    <p>Title: {{results.title}}</p>
-    <p>Author(s): {{authors}}</p>
-    <p>Publisher: {{publisher}}</p>
-    <h2>Enter in some info</h2>
-    <form action="/textbooks/newbook" method="POST">
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">
+                This is what we found!
+            </h2>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item">Title: {{results.title}}</li>
+                <li class="list-group-item">Author(s): {{authors}}</li>
+                <li class="list-group-item">Publisher: {{publisher}}</li>
+            </ul>            
+        </div>
+    </div>
+    <br>
+
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">
+                We just need some info...
+            </h2>
+            <br>
+            <style>
+                .input-first{
+                    margin-bottom: -1px;
+                    border-bottom-right-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+                .input-second{
+                    margin-bottom: -1px;
+                    border-radius: 0;
+                }
+                .input-third{
+                    margin-bottom: 10px;
+                    border-top-right-radius: 0;
+                    border-top-left-radius: 0;
+                }
+            </style>
+            <form action="/textbooks/newbook" method="POST">
+                <select class="form-select input-first" aria-label="Default select example" name="bookCond">
+                    <option selected>Select condition of book</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Poor">Poor</option>
+                </select>
+                <div class="input-group">
+                    <span class="input-group-text input-second">$</span>
+                    <input class="form-control input-second" name="bookPrice" type="number" placeholder="Price of book (optional)">
+                </div>
+                <input class="form-control input-third" name="userEmail" type="email" required="true" placeholder="Email">
+                <button class="btn btn-outline-secondary" type="submit">Post a new book</button>
+            </form>
+        </div>
+    </div>
+    <!-- <form action="/textbooks/newbook" method="POST">
         <div class="form-group">
             <select class="selectpicker" name="condition" style="-webkit-appearance: none; color: black;">
                 <option value="Excellent">Excellent</option>
@@ -43,32 +100,9 @@
             <input name="userEmail" type="email" required="true" placeholder="Email"><br>
         </div>
         <button type="submit" class="btn btn-default">Post new textbook</button>
-    </form>
+    </form> -->
 
     {%endif%}
-    <!-- <form action="/textbooks/submit" method="POST">
-        <div class="form-group">
-            <h2>Textbook info</h2> 
-            <label for="bookTitle">Title</label><br>
-            <input id="bookTitle" name="bookTitle" type="text" required="true"><br>
-            <label for="bookAuthor">Author</label><br>
-            <input id="bookAuthor" name="bookAuthor" type="text" required="true"><br>
-            <label for="bookEd">Edition</label><br>
-            <input id="bookEd" name="bookEd" type="text" required="true"><br>
-            <label for="bookYear">Year</label><br>
-            <input id="bookYear" name="bookYear" type="text" required="true"><br>
-            <label for="bookCond">Condition</label><br>
-            <input id="bookCond" name="bookCond" type="text" required="true"><br>
-            <label for="bookISBN">ISBN</label><br>
-            <input id="bookISBN" name="bookISBN" type="text" required="true"><br>
-    
-            <h2>User info</h2>
-            <label for="userEmail">Email Address</label><br>
-            <input id="userEmail" name="userEmail" type="text" required="true"><br>
-            <label for="userNotes">Notes</label><br>
-            <input id="userNotes" name="userNotes" type="text" required="true"><br>
-        </div>
-    </form> -->
 </div>
 
 {% endblock %}
