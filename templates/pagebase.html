@@ -16,19 +16,36 @@
 </head>
 
 <body>
-    <!-- <style>
-        body {
+    <style>
+        /* body {
             background-color: #121212;
             color: #f9f9f9;
+        } */
+
+        /* nav {
+            background-color: #1e1e1e;
+        } */
+
+        .card {
+            background-color: #f9f9f9;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            /* border: 0px solid; */
         }
 
-        nav {
-            background-color: #1e1e1e;
+        .error {
+            color: #B00020;
         }
-    </style> -->
-    <nav class="navbar navbar-expand-lg bg-light">
+
+        .success{
+            color: #00b026;
+        }
+        nav{
+            box-shadow: 0 8px 6px -6px rgb(0 0 0 / 0.4);
+        }
+    </style>
+    <nav class="navbar sticky-top navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href={{url_for('home')}}>📚</a>
+            <a class="navbar-brand" href={{url_for('home')}}>Bulletin Books 📚</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -45,13 +62,11 @@
             </div>
         </div>
     </nav>
+    <br>
     {%block content%}
     {%endblock%}
 
-
-
-
-
+    <br>
 </body>
 <!-- https://dev.to/murtuzaalisurti/dark-mode-toggle-animation-using-css-27il -->
 
