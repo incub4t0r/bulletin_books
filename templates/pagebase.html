@@ -8,15 +8,18 @@
     <title>Document</title>
     <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <link rel="stylesheet" href="../static/carddark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../static/dark.css">
+    <!-- <link rel="stylesheet" href="../static/cards.css"> -->
+
+    <!-- <link rel="stylesheet" href="../static/carddark.css"> -->
 
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
-            <!-- <a class="navbar-brand">💪</a> -->
+            <a class="navbar-brand">📚</a>
             <div class="navbar-header navbar-text">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1">
@@ -30,15 +33,31 @@
                 <ul class="nav navbar-nav">
                     <li><a class="first" href={{url_for('home')}}>Home </a></li>
                     <li><a href={{url_for('listbook')}}>List </a></li>
-                    <li><a href={{url_for('newbook')}}>Post</a></li>
+                    <li><a href={{url_for('isbnsearch')}}>Post</a></li>
+                    <li><a href={{url_for('about')}}>About</a></li>
+                    <li><a href={{url_for('delete')}}>Delete</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    
+
+    <!-- <br>
+    <div class="container">
+        <li><a class="first" href={{url_for('home')}}>Home </a></li>
+        <li><a href={{url_for('listbook')}}>List </a></li>
+        <li><a href={{url_for('isbnsearch')}}>Post</a></li>
+        <li><a href={{url_for('about')}}>About</a></li>
+        <li><a href={{url_for('delete')}}>Delete</a></li>
+
+    </div> -->
     {% block content %}{% endblock %}
-    <br>
-    <br>
-    <br>
+
 </body>
 <!-- https://dev.to/murtuzaalisurti/dark-mode-toggle-animation-using-css-27il -->
 

@@ -9,14 +9,19 @@ slidecards is a work-in progress web app that will allow students to trade textb
 ## Phases & Implied Tasks for MVP
 
 1. Get webpage up
-  - [ ] endpoints for landing page, view listed textbooks, add new textbook
-2. Develop new book entires
-  - [ ] Create new firebase table for book entires
-    - [ ] Take in name of book, author, edition, year, condition (drop down of excellent, fair, poor), class, contact info of who posted book
-3. Develop listing book entires
+  - [X] endpoints for landing page, view listed textbooks, add new textbook, about, delete
+2. Develop new book entries
+  - [X] Add ISBN lookup
+  - [X] Take in user email for contact info
+  - [X] Generate random 5 character string for book deletion
+  - [ ] Send random to user email
+  - [ ] Add sqlite3 db for table
+  - [ ] Add function to access table
+3. Develop listing book entries
+  - [ ] Add function to access table
   - [ ] Access firebase table for book entires
   - [ ] Sort by newly listed, alphabetic order
-
+4. Add a new page for viewing each textbook individually for user email. 
 
 ## Phases & Implied Tasks for full product
 
