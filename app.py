@@ -9,23 +9,17 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import xmltodict
 
-# from flask_talisman import Talisman
-
-
 load_dotenv()
 
 APP_PASSWORD = os.getenv('APP_PASSWORD')
 EMAIL_SENDER = os.getenv('EMAIL_SENDER')
 
-
 app = Flask(__name__)
-# Talisman(app)
 
 # db configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,9 +30,7 @@ class Book(db.Model):
     price = db.Column(db.Numeric(10))
     deleteCode = db.Column(db.String(10))
 
-
 db.create_all()
-
 
 # Functions
 def createNewBook(bookTitle, userEmail, bookEdition, bookCond, bookPrice, bookDeleteCode):

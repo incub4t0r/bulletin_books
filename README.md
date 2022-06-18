@@ -1,10 +1,10 @@
-# slidecards
+# Bulletin Books
 
-slidecards will be integrated into a new project. This repository will be renamed later to follow this new project.
+## What is Bulletin Books?
 
-## What is slidecards?
+Bulletin Books is a work-in progress web app that allows students to trade textbooks in a centralized location. 
 
-slidecards is a work-in progress web app that will allow students to trade textbooks in a centralized location.
+Built by a student, for students.
 
 ## Phases & Implied Tasks for MVP
 
@@ -47,10 +47,5 @@ slidecards is a work-in progress web app that will allow students to trade textb
 - [ ] Dark/light mode toggle
 - [ ] Firebase integration
 - [ ] User login and authentication through email
-- [ ] Jinja2 templating
-- [ ] Mobile-friendly design
-
-## What will the final name be?
-
-- Book Battalion
-- Textbook Trade
+- [X] Jinja2 templating
+- [X] Mobile-friendly design
