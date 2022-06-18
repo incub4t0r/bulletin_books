@@ -22,7 +22,7 @@
                 </div>
             </form>
             {%if error is defined%}
-            <p class="error">Error finding book by ISBN, either ISBN is wrong or book is not indexed.</p>
+            <p class="error">{{error}}</p>
             {%endif%}
         </div>
     </div>
