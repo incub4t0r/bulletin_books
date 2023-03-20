@@ -9,6 +9,10 @@ from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 import xmltodict
 
+# flag for running flask app on dev machine
+DEV = True
+
+
 load_dotenv()
 
 APP_PASSWORD = os.getenv('APP_PASSWORD')
@@ -230,4 +234,7 @@ def delete():
         return render_template("error.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    if DEV == True:
+        app.run(host="127.0.0.1", port=1234, debug=True)
+    else:
+        app.run()
